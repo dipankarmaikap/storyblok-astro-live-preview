@@ -1,0 +1,67 @@
+---
+import { useStoryblokApi } from '@storyblok/astro'
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const storyblokApi = useStoryblokApi()
+
+const { slug } = Astro.params
+
+let previewStory = Astro.locals['_storyblok_preview_data'] ?? null
+
+let story
+if (previewStory) {
+  story = previewStory
+} else {
+  const { data } = await storyblokApi.get(
+    `cdn/stories/${slug === undefined ? 'home' : slug}`,
+    {
+      version: 'draft',
+    }
+  )
+
+  story = data.story
+}
+---
+
+<script>
+  window.addEventListener(
+    'message',
+    async (event) => {
+      //Onliy listen to messages from the app.storyblok.com
+      if (event.origin == 'https://app.storyblok.com') {
+        //in the case of input event
+        if (event?.data?.action === 'input') {
+          const currentBody = document.body
+          let story = event?.data?.story
+          if (!story) return
+          const result = await fetch(location.href, {
+            method: 'POST',
+            body: JSON.stringify({
+              ...story,
+              is_storyblok_preview: true,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          const html = await result.text()
+          const parser = new DOMParser()
+          // Parse the text
+          const doc = parser.parseFromString(html, 'text/html')
+          const newBody = doc.body
+          if (newBody.outerHTML) {
+            currentBody.outerHTML = newBody.outerHTML
+          }
+        }
+        if (['published', 'unpublished'].includes(event?.data?.action)) {
+          location.reload()
+        }
+      }
+    },
+    false
+  )
+</script>
+<BaseLayout>
+  <StoryblokComponent blok={story.content} />
+</BaseLayout>

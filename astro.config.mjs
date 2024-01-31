@@ -26,6 +26,7 @@ export default defineConfig({
     }),
     tailwind(),
   ],
+  output: 'server',
   vite: {
     plugins: [basicSsl()],
     server: {
