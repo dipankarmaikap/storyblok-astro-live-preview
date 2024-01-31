@@ -47,11 +47,30 @@ if (previewStory) {
           })
           const html = await result.text()
           const parser = new DOMParser()
-          // Parse the text
+          // Parse the text to new HTML page
           const doc = parser.parseFromString(html, 'text/html')
           const newBody = doc.body
           if (newBody.outerHTML) {
-            currentBody.outerHTML = newBody.outerHTML
+            //Get current focused element in storyblok
+            const cFocusedEle = document.querySelector(
+              '[data-blok-focused="true"]'
+            )
+            if (cFocusedEle) {
+              //Get the [data-blok-uid] of the focused element in storyblok
+              const focusedElementID = cFocusedEle.getAttribute('data-blok-uid')
+              //Now find the same element by above [data-blok-uid] in our new virtual HTML page
+              let fEleInNewDom = newBody.querySelector(
+                `[data-blok-uid="${focusedElementID}"]`
+              )
+              // Change add the [data-blok-focused] attribute to this element
+              fEleInNewDom.setAttribute('data-blok-focused', 'true')
+              console.log('Doing partical replace')
+              //Only replace this focused html in the current page
+              cFocusedEle.outerHTML = fEleInNewDom.outerHTML
+            } else {
+              console.log('Doing full replace')
+              currentBody.outerHTML = newBody.outerHTML
+            }
           }
         }
         if (['published', 'unpublished'].includes(event?.data?.action)) {
