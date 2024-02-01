@@ -7,7 +7,7 @@ const storyblokApi = useStoryblokApi()
 
 const { slug } = Astro.params
 
-let previewStory = Astro.locals['_storyblok_preview_data'] ?? null
+let previewStory = Astro.locals['_storyblok_preview_data']
 
 let story
 if (previewStory) {
@@ -62,7 +62,7 @@ if (previewStory) {
               let fEleInNewDom = newBody.querySelector(
                 `[data-blok-uid="${focusedElementID}"]`
               )
-              // Change add the [data-blok-focused] attribute to this element
+              // Add the [data-blok-focused] attribute to the above element
               fEleInNewDom.setAttribute('data-blok-focused', 'true')
               console.log('Doing partical replace')
               //Only replace this focused html in the current page
