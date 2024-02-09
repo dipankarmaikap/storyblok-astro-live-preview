@@ -1,36 +1,48 @@
 import { defineConfig } from 'astro/config'
+import svelte from '@astrojs/svelte'
+import vue from '@astrojs/vue'
+import react from '@astrojs/react'
 import storyblok from '@storyblok/astro'
-import { loadEnv } from 'vite'
 import tailwind from '@astrojs/tailwind'
 import basicSsl from '@vitejs/plugin-basic-ssl'
-const env = loadEnv('', process.cwd(), 'STORYBLOK')
+import node from '@astrojs/node'
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    svelte(),
+    vue(),
+    react(),
     storyblok({
-      //accessToken: env.STORYBLOK_TOKEN,
-      accessToken: 'W1vLyxT5rQ15jBpANjnv0gtt',
+      accessToken: 'OsvNv534kS2nivAAj1EPVgtt',
       apiOptions: {
-        region: '',
+        cache: {
+          clear: 'auto',
+          type: 'memory',
+        },
       },
-      bridge: {
-        customParent: 'https://app.storyblok.com',
-      },
+      enableFallbackComponent: true,
       components: {
         page: 'storyblok/Page',
         feature: 'storyblok/Feature',
         grid: 'storyblok/Grid',
         teaser: 'storyblok/Teaser',
+        vue_counter: 'storyblok/VueCounter',
+        svelte_counter: 'storyblok/SvelteCounter',
+        react_counter: 'storyblok/ReactCounter',
+        'new-component': 'storyblok/NewComponent',
       },
     }),
     tailwind(),
   ],
-  output: 'server',
   vite: {
     plugins: [basicSsl()],
     server: {
       https: true,
     },
   },
+  output: 'server',
+  adapter: node({
+    mode: 'standalone',
+  }),
 })

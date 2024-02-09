@@ -1,11 +1,15 @@
 ---
-import { storyblokEditable } from '@storyblok/astro'
+import { storyblokEditable } from "@storyblok/astro";
+import { renderRichText } from "@storyblok/astro";
 
-const { blok } = Astro.props
+const { blok } = Astro.props;
+
+const renderedRichText = renderRichText(blok.text);
 ---
 
 <div {...storyblokEditable(blok)}>
-  <h3 class='py-32 text-6xl text-[#50b0ae] font-bold text-center'>
+  <h2 class="text-center text-4xl font-bold text-primary py-12">
     {blok.headline}
-  </h3>
+  </h2>
+  <div set:html={renderedRichText}></div>
 </div>
