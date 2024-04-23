@@ -20,5 +20,9 @@
     "astro": "^4.3.5",
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.1"
+  },
+  "dependencies": {
+    "lodash.every": "^4.6.0",
+    "lodash.mergewith": "^4.6.2"
   }
 }
