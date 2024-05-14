@@ -15,6 +15,7 @@
     "@astrojs/svelte": "^5.0.3",
     "@astrojs/tailwind": "^6.0.0-beta.0",
     "@astrojs/vue": "^4.0.8",
+    "@storyblok/astro": "^4.1.0-next.2",
     "astro": "^4.3.5",
     "install": "^0.13.0",
     "npm": "^10.5.2",
@@ -23,7 +24,7 @@
     "vite-plugin-mkcert": "^1.17.5"
   },
   "dependencies": {
-    "@storyblok/astro": "^4.1.0-next.1",
+    "@astrojs/vercel": "^7.6.0",
     "lodash.every": "^4.6.0",
     "lodash.mergewith": "^4.6.2"
   }
