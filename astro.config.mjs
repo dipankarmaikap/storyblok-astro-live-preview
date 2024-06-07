@@ -15,6 +15,7 @@ export default defineConfig({
     react(),
     storyblok({
       bridge: true,
+      // accessToken: 'ksfEx0I0XU7bskDvOrrUiAtt',
       accessToken: 'OsvNv534kS2nivAAj1EPVgtt',
       apiOptions: {
         cache: {
@@ -23,6 +24,7 @@ export default defineConfig({
         },
       },
       enableFallbackComponent: true,
+      livePreview: true,
       components: {
         page: 'storyblok/Page',
         feature: 'storyblok/Feature',
