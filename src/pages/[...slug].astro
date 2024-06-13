@@ -1,43 +1,20 @@
 ---
-import { useStoryblokApi } from '@storyblok/astro'
+import { useStoryblok } from '@storyblok/astro'
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
-const storyblokApi = useStoryblokApi()
 
 const { slug } = Astro.params
-
-let previewStory = Astro.locals['_storyblok_preview_data']
-
-function fancyFunc(Astro) {
-  
-}
-
-let story
-if (previewStory) {
-  story = previewStory
-} else {
-  const { data } = await storyblokApi.get(
-    `cdn/stories/${slug === undefined ? 'home' : slug}`,
-    {
-      version: 'draft',
-      resolve_relations: ['featured-articles.posts'],
-    }
-  )
-
-  story = data.story
-}
+const story = await useStoryblok(
+  `cdn/stories/${slug === undefined ? 'home' : slug}`,
+  {
+    version: 'draft',
+    resolve_relations: ['featured-articles.posts'],
+  },
+  {},
+  Astro
+)
 ---
 
-<script>
-  import setupStoryblokLiveEditor from '../utils/setupStoryblokLiveEditor'
-  setupStoryblokLiveEditor()
-</script>
 <BaseLayout>
-  <!-- <div
-    class="hidden"
-    id="story-json"
-    data-story={JSON.stringify(story.content)}
-  >
-  </div> -->
   <StoryblokComponent blok={story.content} />
 </BaseLayout>

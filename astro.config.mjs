@@ -4,8 +4,8 @@ import vue from '@astrojs/vue'
 import react from '@astrojs/react'
 import storyblok from '@storyblok/astro'
 import tailwind from '@astrojs/tailwind'
-import basicSsl from '@vitejs/plugin-basic-ssl'
-import node from '@astrojs/node'
+import mkcert from 'vite-plugin-mkcert'
+import vercel from '@astrojs/vercel/serverless'
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,6 +15,7 @@ export default defineConfig({
     react(),
     storyblok({
       bridge: true,
+      // accessToken: 'ksfEx0I0XU7bskDvOrrUiAtt',
       accessToken: 'OsvNv534kS2nivAAj1EPVgtt',
       apiOptions: {
         cache: {
@@ -23,6 +24,7 @@ export default defineConfig({
         },
       },
       enableFallbackComponent: true,
+      livePreview: true,
       components: {
         page: 'storyblok/Page',
         feature: 'storyblok/Feature',
@@ -39,13 +41,13 @@ export default defineConfig({
     tailwind(),
   ],
   vite: {
-    plugins: [basicSsl()],
+    plugins: [mkcert()],
     server: {
       https: true,
     },
   },
   output: 'server',
-  adapter: node({
-    mode: 'standalone',
+  adapter: vercel({
+    edgeMiddleware: true,
   }),
 })
