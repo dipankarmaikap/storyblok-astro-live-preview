@@ -15,7 +15,7 @@
     "@astrojs/svelte": "^5.0.3",
     "@astrojs/tailwind": "^6.0.0-beta.0",
     "@astrojs/vue": "^4.0.8",
-    "@storyblok/astro": "^4.1.0-alpha.3",
+    "@storyblok/astro": "^4.1.0",
     "astro": "^4.3.5",
     "install": "^0.13.0",
     "npm": "^10.5.2",
